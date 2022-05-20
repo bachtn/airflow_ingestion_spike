@@ -1,12 +1,9 @@
-from datetime import timedelta
 from datetime import datetime
-
-import logging
-from pathlib import Path
+from datetime import timedelta
 
 import pandas as pd
 from airflow.decorators import dag, task
-from airflow.utils.dates import days_ago
+from pendulum import today
 
 
 @dag(
@@ -15,7 +12,7 @@ from airflow.utils.dates import days_ago
     tags=["example"],
     default_args={'owner': 'airflow'},
     schedule_interval=timedelta(minutes=1),
-    start_date=days_ago(n=0, hour=1)
+    start_date=today().add(hours=-1)
 )
 def ingest_data():
     @task
